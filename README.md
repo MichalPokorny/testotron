@@ -13,7 +13,7 @@ Example use:
 	# Load Testotron
 	require './testotron.rb'
 
-	ConfTest.new.test do |t|
+	Testotron.test do |t|
 		# First set report modes.
 		t.report_with :local_mail, :stderr, :xosdutil
 
@@ -34,7 +34,7 @@ Example use:
 Supported report modes
 ----------------------
 
-* `local_mail`: Mails you a simple e-mail to (your username)@localhost.
+* `local_mail`: Mails you a simple e-mail to `(your username)@localhost`.
 * `stderr`: Writes a one-line error message to STDERR.
-* `xosdutil`: Runs "xosdutil echo (error message). I'm sorry if you don't happen
+* `xosdutil`: Runs `xosdutil echo (error message)`. I'm sorry if you don't happen
   to be amongst the numerous ranks of xosdutil users :)

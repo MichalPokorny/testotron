@@ -82,10 +82,11 @@ EOF
 		else
 			raise ArgumentError if args.empty?
 			test = args.shift.to_sym
-			raise KeyError unless TEST_CLASSES.map { |klass| klass.const_get(:KEY) }.include?(test)
+			keys = TEST_CLASSES.map { |x| x.const_get(:KEY).to_sym }
+			raise KeyError, "Unknown test: #{test}" unless TEST_CLASSES.map { |x| x.const_get(:KEY).to_sym }.include?(test)
 			TEST_CLASSES.each { |klass|
-				if klass.const_get(:KEY) == test
-					test.run(runner)
+				if klass.const_get(:KEY).to_sym == test
+					klass.new(*args).run(runner)
 					break
 				end
 			}

@@ -21,7 +21,14 @@ module Testotron::Tests
 			@requests.each do |page|
 				runner.report self, "Trying #{page}..."
 				request = Net::HTTP::Get.new URI.parse(page).request_uri
-				response = http.request(request)
+
+				begin
+					response = http.request(request)
+				rescue Errno::ETIMEDOUT
+					raise TestFailed, "HTTP connection timed out"
+				rescue Errno::ECONNREFUSED
+					raise TestFailed, "HTTP connection refused"
+				end
 
 				if response.code.to_i != 200
 					raise TestFailed, "Response not 200 on #{@post}:#{@port} GET #{page}"

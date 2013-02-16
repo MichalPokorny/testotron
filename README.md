@@ -14,6 +14,9 @@ Example use:
 	require './testotron.rb'
 
 	ConfTest.new.test do |t|
+		# First set report modes.
+		t.report_with :local_mail, :stderr, :xosdutil
+
 		# Test several pages on an alternate HTTP port
 		t.http "example.org", "80", [ "http://example.org", "http://something.example.org/else.html" ]
 
@@ -28,4 +31,10 @@ Example use:
 		t.smtp "example.org", 3315
 	end
 
+Supported report modes
+----------------------
 
+* `local_mail`: Mails you a simple e-mail to (your username)@localhost.
+* `stderr`: Writes a one-line error message to STDERR.
+* `xosdutil`: Runs "xosdutil echo (error message). I'm sorry if you don't happen
+  to be amongst the numerous ranks of xosdutil users :)

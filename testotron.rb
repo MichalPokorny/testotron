@@ -71,54 +71,64 @@ class HTTPTest < Test
 end
 
 class Testotron
+	REPORT_METHODS = [ :local_mail, :stderr, :xosdutil ]
+
 	class TestBuilder
 		def initialize(runner)
 			@runner = runner
+			@report_methods = [ :local_mail ]
 		end
 
 		TEST_CLASSES = [ SMTPTest, HTTPTest ]
 
+		# TODO: save for later execution
 		TEST_CLASSES.each { |klass|
 			define_method klass.const_get(:KEY) do |*args|
 				test = klass.new(*args)	
 				begin
 					test.run
 				rescue TestFailed => failure
-					@runner.report_error test, failure
+					@runner.report_error(@report_methods, test, failure)
 				end
 			end
 		}
+
+		def report_with(*methods)
+			@report_methods = methods.map &:to_sym
+		end
 	end
 
-	def self.report_error(test, failure)
-		mail = Mail.new do
-			from 'conftest@localhost'
-			to `whoami`.chomp
-			subject "Configuration test failed!"
-			body <<EOF
-Test:
-	#{test.human_name}
+	# TODO: set mail target
 
-Message: 
-	#{failure.message}
+	def self.report_error(methods, test, failure)
+		if methods.include?(:local_mail)
+			mail = Mail.new do
+				from 'conftest@localhost'
+				to `whoami`.chomp
+				subject "Configuration test failed!"
+				body <<EOF
+	Test:
+		#{test.human_name}
+
+	Message: 
+		#{failure.message}
 EOF
+			end
+
+			mail.delivery_method :sendmail
+			mail.deliver
 		end
 
-		mail.delivery_method :sendmail
-		mail.deliver
+		if methods.include? :xosdutil
+			system "xosdutilctl", "echo", "Configuration test (#{test.human_name}) failed!"
+		end
 
-		system "xosdutilctl", "echo", "Configuration test failed!"
+		if methods.include? :stderr
+			STDERR.puts "Test failed: #{test.human_name} (message: #{failure.message})"
+		end
 	end
 
 	def self.test
 		yield(TestBuilder.new(self))
 	end
 end
-
-# Example usage:
-#	Testotron.test do |t|
-#		t.http("rny.cz", "80", [ "http://rny.cz", "http://work.rny.cz/", "http://poko.rny.cz/" ])
-#		t.http("orldecin.cz", "80", [ "http://orldecin.cz/" ])
-#		t.smtp("rny.cz")
-#		t.smtp("rny.cz", 5357)
-#	end

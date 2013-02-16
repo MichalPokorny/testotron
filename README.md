@@ -8,6 +8,7 @@ Testotron can detect basic errors in your configuration, like a server not start
 or a blocked port.
 
 Example use:
+
 	#!/usr/bin/ruby
 	# Load Testotron
 	require './testotron.rb'

@@ -31,6 +31,9 @@ Usage example
 		# Test default HTTP port
 		t.http "example.org"
 
+		# You can ask the tests to run quietly (without messages on STDOUT)
+		t.quiet = true # or t.quiet!
+
 		# Test some nondefault page
 		t.http "example.org", "80", "http://example.org/hello/world.html"
 
@@ -39,7 +42,8 @@ Usage example
 		t.smtp "example.org", 3315
 	end
 
-	# Run a single test
+	# Run a single test.
+	# Single tests are quiet by default
 	Testotron.test :smtp, "example.org", 3315
 
 Supported report modes

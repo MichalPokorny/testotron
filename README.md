@@ -7,7 +7,13 @@ anywhere.
 Testotron can detect basic errors in your configuration, like a server not starting
 or a blocked port.
 
-Example use:
+Installation
+------------
+
+Just run `gem install testotron` or add `testotron` to your Gemfile, and you should be good.
+
+Usage example
+-------------
 
 	#!/usr/bin/ruby
 	# Load Testotron
@@ -30,6 +36,9 @@ Example use:
 		t.smtp "example.org"
 		t.smtp "example.org", 3315
 	end
+
+	# Run a single test
+	Testotron.test :smtp, "example.org", 3315
 
 Supported report modes
 ----------------------

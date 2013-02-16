@@ -7,6 +7,8 @@ anywhere.
 Testotron can detect basic errors in your configuration, like a server not starting
 or a blocked port.
 
+Testotron on RubyGems: https://rubygems.org/gems/testotron.
+
 Installation
 ------------
 
@@ -17,7 +19,7 @@ Usage example
 
 	#!/usr/bin/ruby
 	# Load Testotron
-	require './testotron.rb'
+	require 'testotron'
 
 	Testotron.test do |t|
 		# First set report modes.

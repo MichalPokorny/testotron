@@ -27,10 +27,12 @@ module Testotron
 
 					begin
 						response = http.request(request)
+					rescue Timeout::Error
+						raise TestFailed, "HTTP connection timed out (Timeout::Error)"
 					rescue Errno::ETIMEDOUT
-						raise TestFailed, "HTTP connection timed out"
+						raise TestFailed, "HTTP connection timed out (ETIMEDOUT)"
 					rescue Errno::ECONNREFUSED
-						raise TestFailed, "HTTP connection refused"
+						raise TestFailed, "HTTP connection refused (ECONNREFUSED)"
 					rescue SocketError
 						raise TestFailed, "HTTP connection failed (SocketError)"
 					end

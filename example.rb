@@ -3,9 +3,9 @@
 # Example Testotron script
 
 # Load Testotron
-require './testotron.rb'
+require 'testotron.rb'
 
-ConfTest.new.test do |t|
+Testotron.test do |t|
 	# Test several pages on an alternate HTTP port
 	t.http "example.org", "80", [ "http://example.org", "http://something.example.org/else.html" ]
 

@@ -13,6 +13,7 @@ module Testotron
 
 	class TestBuilder
 		def initialize(runner)
+			@errors = false
 			@runner = runner
 			@report_methods = [ :local_mail ]
 		end
@@ -29,7 +30,16 @@ module Testotron
 			end
 		}
 
+		def ok?
+			!@errors
+		end
+
+		def errors?
+			@errors
+		end
+
 		def complain(test, failure)
+			@errors = true
 			if @complaint_block
 				@complaint_block.call(test, failure)
 			end
@@ -110,7 +120,7 @@ EOF
 		runner.quiet = true
 
 		if block_given?
-			yield(TestBuilder.new(runner))
+			return yield(TestBuilder.new(runner))
 		else
 			raise ArgumentError if args.empty?
 			test = args.shift.to_sym

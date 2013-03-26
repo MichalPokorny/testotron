@@ -34,6 +34,9 @@ Usage example
 		# You can ask the tests to run quietly (without messages on STDOUT)
 		t.quiet = true # or t.quiet!
 
+		puts "OK so far." if t.ok?
+		puts "Errors in previous tests." if t.errors?
+
 		# Test some nondefault page
 		t.http "example.org", "80", "http://example.org/hello/world.html"
 

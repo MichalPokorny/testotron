@@ -1,0 +1,4 @@
+testotron: executable co spusti nejakou sadu testu
+testotron: test DNS
+TODO: testotron - licence
+runner: ukaz jenom jmeno testu, ne celou tridu

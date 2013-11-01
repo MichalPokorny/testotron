@@ -5,11 +5,11 @@ module Testotron
 		class HTTP < Test
 			KEY = "http"
 
-			def initialize(host, port = 80, requests = nil)
-				if requests.nil?
-					requests = "http://#{host}/"
-				end
-				@host, @port, @requests = host, port, [*requests]
+			def initialize(host, options = {})
+				@host = host
+				@port = options[:port] || 80
+				@requests = [*(options[:requests] || "http://#{host}")]
+				@grep = options[:grep]
 			end
 
 			def human_name
@@ -41,6 +41,12 @@ module Testotron
 					code = response.code.to_i
 					unless good_codes.include? code
 						raise TestFailed, "Response code #{code} on #{@post}:#{@port} GET #{page}"
+					end
+
+					if @grep
+						unless response.body.include? @grep
+							raise TestFailed, "Response on GET #{page} doesn't match '#@grep'"
+						end
 					end
 				end
 			end

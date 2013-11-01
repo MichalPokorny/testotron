@@ -49,7 +49,7 @@ module Testotron
 		def report_with(*methods)
 			methods = methods.first if methods.length == 1
 			methods = [methods] unless methods.is_a? Array
-			@report_methods = methods.map &:to_sym
+			@report_methods = methods.map(&:to_sym)
 		end
 
 		def complain_using(&block)
@@ -124,7 +124,6 @@ EOF
 		else
 			raise ArgumentError if args.empty?
 			test = args.shift.to_sym
-			keys = TEST_CLASSES.map { |x| x.const_get(:KEY).to_sym }
 			raise KeyError, "Unknown test: #{test}" unless TEST_CLASSES.map { |x| x.const_get(:KEY).to_sym }.include?(test)
 			TEST_CLASSES.each { |klass|
 				if klass.const_get(:KEY).to_sym == test

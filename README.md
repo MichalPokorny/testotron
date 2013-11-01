@@ -26,7 +26,7 @@ Usage example
 		t.report_with :local_mail, :stderr, :xosdutil
 
 		# Test several pages on an alternate HTTP port
-		t.http "example.org", "80", [ "http://example.org", "http://something.example.org/else.html" ]
+		t.http "example.org", port: 8080, requests: ["http://example.org", "http://something.example.org/else.html"]
 
 		# Test default HTTP port
 		t.http "example.org"
@@ -38,7 +38,10 @@ Usage example
 		puts "Errors in previous tests." if t.errors?
 
 		# Test some nondefault page
-		t.http "example.org", "80", "http://example.org/hello/world.html"
+		t.http "example.org", port: 80, requests: "http://example.org/hello/world.html"
+
+		# Test that some text is present in the response.
+		t.http "example.org", grep: "hello"
 
 		# Test a SMTP server, with an optional alternate port
 		t.smtp "example.org"

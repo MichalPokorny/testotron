@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
 	s.name = 'testotron'
-	s.version = '0.0.5'
+	s.version = '0.0.6'
 	s.date = '2013-02-16'
 	s.summary = 'Simple server testing'
 	s.description = <<-EOF

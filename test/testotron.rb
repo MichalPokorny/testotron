@@ -6,11 +6,11 @@ class TestotronTest < Test::Unit::TestCase
 	GOOD_SMTP_SERVER = "smtp.google.com"
 
 	def test_single_http_on_good_server
-		Testotron.test :http, "example.org", 80, "http://www.example.org/"
+		Testotron.test :http, "example.org", port: 80, requests: "http://www.example.org/"
 	end
 
 	def test_single_smtp_on_good_server
-		Testotron.test :smtp, "smtp.gmail.com"
+		Testotron.test :smtp, GOOD_SMTP_SERVER
 	end
 
 	def test_successful_test_battery
@@ -19,8 +19,8 @@ class TestotronTest < Test::Unit::TestCase
 		Testotron.test do |t|
 			t.quiet = true
 			t.report_with [] # No reports
-			t.http "google.com", 80, "http://www.google.com/"
-			t.smtp "smtp.gmail.com"
+			t.http "google.com", port: 80, requests: "http://www.google.com/", grep: "body"
+			t.smtp GOOD_SMTP_SERVER
 			tests_ok = t.ok?
 			test_errors = t.errors?
 		end
@@ -37,15 +37,15 @@ class TestotronTest < Test::Unit::TestCase
 			t.quiet = true
 			t.report_with [] # No reports
 			t.complain_using { |test, error|
-				complaints << [ test, error ]
+				complaints << [test, error]
 			}
 			t.smtp "www.example.org"
 			tests_ok = t.ok?
 			test_errors = t.errors?
 		end
 
-		assert(tests_ok == false)
-		assert(test_errors == false)
+		assert !tests_ok
+		assert test_errors
 
 		assert(complaints.length == 1)
 

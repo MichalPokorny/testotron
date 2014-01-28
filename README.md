@@ -31,6 +31,9 @@ Usage example
 		# Test default HTTP port
 		t.http "example.org"
 
+		# Test default HTTP port with timeout of 10 seconds (2 secs is default)
+		t.http "example.org", timeout: 10
+
 		# You can ask the tests to run quietly (without messages on STDOUT)
 		t.quiet = true # or t.quiet!
 

@@ -15,6 +15,9 @@ Testotron.test do |t|
 	# Test some nondefault page
 	t.http "example.org", requests: "http://example.org/hello/world.html"
 
+	# Test some nondefault page with a timeout of 10 seconds
+	t.http "example.org", requests: "http://example.org/hello/world.html", timeout: 10
+
 	# Test some nondefault page and grep it for something
 	t.http "example.org", requests: "http://example.org/hello/world.html", grep: "I should contain this string."
 

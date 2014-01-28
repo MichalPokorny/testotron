@@ -9,6 +9,7 @@ module Testotron
 				@host = host
 				@port = options[:port] || 80
 				@requests = [*(options[:requests] || "http://#{host}")]
+				@timeout = options[:timeout] || 2
 				@grep = options[:grep]
 			end
 
@@ -19,8 +20,8 @@ module Testotron
 			def run(runner)
 				runner.report self, "Testing HTTP server on #{@host} port #{@port}..."
 				http = Net::HTTP.new(@host, @port)
-				http.read_timeout = 2
-				http.open_timeout = 2
+				http.read_timeout = @timeout
+				http.open_timeout = @timeout
 				@requests.each do |page|
 					runner.report self, "Trying #{page}..."
 					request = Net::HTTP::Get.new URI.parse(page).request_uri

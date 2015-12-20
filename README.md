@@ -31,6 +31,9 @@ Usage example
 		# Test default HTTP port
 		t.http "example.org"
 
+		# Test default HTTP port, retry 10 times instead of the default 3 times
+		t.http "example.org", retries: 10
+
 		# Test default HTTP port with timeout of 10 seconds (2 secs is default)
 		t.http "example.org", timeout: 10
 

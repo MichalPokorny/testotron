@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
 	s.name = 'testotron'
-	s.version = '0.0.7'
-	s.date = '2013-02-16'
+	s.version = '0.0.8'
+	s.date = '2014-08-25'
 	s.summary = 'Simple server testing'
 	s.description = <<-EOF
 		Testotron can automatically test basic functions of common servers, so you
